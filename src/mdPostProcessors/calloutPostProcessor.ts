@@ -86,10 +86,29 @@ export const createEditor = (containerEl: HTMLElement, content: string, view: an
               evt.win.setTimeout(() => {
                 if (this.cm.hasFocus) {
                   this.app.workspace.activeEditor = owner
+                  plugin.activeColumnEditor.focused = true
                 }
               });
               return false;
             },
+
+
+            blur: (e) => {
+              setTimeout(() => {
+                let active = this.containerEl.doc.activeElement
+                if (plugin.activeColumnEditor && active instanceof Element) {
+                  let isMenu = active.closest(".menu");
+                  let isModal = active.closest(".modal-container")
+                  if (!this.containerEl.contains(active)) {
+                    if (!isMenu && !isModal) {
+                      saveAndUnloadCalloutColumnEditor(this.containerEl, this.cmView, this.columnData, plugin)
+                    } else if (!this.cm.hasFocus) {
+                      plugin.activeColumnEditor.focused = false
+                    }
+                  } 
+                } 
+              }, 200)
+            }
           }),
         ),
       )
@@ -126,6 +145,13 @@ export const createEditor = (containerEl: HTMLElement, content: string, view: an
   owner.editMode = plugin.activeColumnEditor
   plugin.activeColumnEditor.load();
   plugin.activeColumnEditor.set(content);
+
+
+  plugin.activeColumnEditor.focus()
+  let editor = plugin.activeColumnEditor.editor
+  let lastLine = editor.lastLine()
+  let lastLineText = editor.getLine(lastLine)
+  editor.setSelection({line: lastLine, ch: lastLineText.length})
    
 }
 

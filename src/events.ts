@@ -1,4 +1,4 @@
-import { Menu, Platform } from "obsidian";
+import { Editor, Menu, Platform } from "obsidian";
 import MdPlus from "./main";
 import { TableEditor } from "@obsidian-typings/obsidian-public-latest";
 
@@ -28,8 +28,14 @@ const updateLiveTableCellContent = (target: HTMLElement, replaceFunc: (text: str
 
         if (cell.contains(target)) {
           let newText = replaceFunc(cellObj.text)
+
+          let editor = tableWidget.editor as unknown as Editor
+
+          console.log(editor)
           tableWidget.updateCell(cellObj, newText)
           tableWidget.dispatchTable()
+
+          editor.focus()
         }
       }
     }

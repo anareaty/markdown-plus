@@ -128,19 +128,22 @@ export default class MdPlus extends Plugin {
 
 
 
+
+		
 			
-			if (this.activeColumnEditor && target instanceof Element) {
+			if (this.activeColumnEditor && !this.activeColumnEditor.focused && target instanceof Element) {
 
 				let {containerEl, cmView, columnData} = this.activeColumnEditor
 
 				let isMenu = target.closest(".menu")
 				let isModal = target.closest(".modal-container")
-				let isEmbedAction = target.closest(".embed-actions") || target.closest(".edit-block-button") || target.closest(".table-wrapper")
 
-				if (!containerEl.contains(target) && !isMenu && !isModal && !isEmbedAction) {
+				if (!containerEl.contains(target) && !isMenu && !isModal) {
 					saveAndUnloadCalloutColumnEditor(containerEl, cmView, columnData, this)
 				} 
 			}
+
+			
 		
 
 

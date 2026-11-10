@@ -166,16 +166,16 @@ Follow Obsidian's **Developer Policies** and **Plugin Guidelines**. In particula
 
 ```ts
 import { Plugin } from 'obsidian';
-import { MySettings, DEFAULT_SETTINGS } from './settings';
+import { MySettings, MDP_DEFAULT_SETTINGS } from './settings';
 import { registerCommands } from './commands';
 
-export default class MyPlugin extends Plugin {
+export default class MdPlus extends Plugin {
 	settings!: MySettings;
 
 	async onload() {
 		this.settings = Object.assign(
 			{},
-			DEFAULT_SETTINGS,
+			MDP_DEFAULT_SETTINGS,
 			(await this.loadData()) as Partial<MySettings>,
 		);
 		registerCommands(this);
@@ -191,7 +191,7 @@ export interface MySettings {
 	apiKey: string;
 }
 
-export const DEFAULT_SETTINGS: MySettings = {
+export const MDP_DEFAULT_SETTINGS: MySettings = {
 	enabled: true,
 	apiKey: '',
 };
@@ -226,10 +226,10 @@ this.addCommand({
 
 ```ts
 interface MySettings { enabled: boolean }
-const DEFAULT_SETTINGS: MySettings = { enabled: true };
+const MDP_DEFAULT_SETTINGS: MySettings = { enabled: true };
 
 async onload() {
-  this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<MySettings>);
+  this.settings = Object.assign({}, MDP_DEFAULT_SETTINGS, await this.loadData() as Partial<MySettings>);
   await this.saveData(this.settings);
 }
 ```

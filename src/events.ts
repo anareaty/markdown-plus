@@ -30,8 +30,6 @@ const updateLiveTableCellContent = (target: HTMLElement, replaceFunc: (text: str
           let newText = replaceFunc(cellObj.text)
 
           let editor = tableWidget.editor as unknown as Editor
-
-          console.log(editor)
           tableWidget.updateCell(cellObj, newText)
           tableWidget.dispatchTable()
 
